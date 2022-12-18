@@ -5,11 +5,17 @@ module.exports.users = (req, res) => {
 }
 
 module.exports.signup = (req, res) => {
-    res.render("signup")
+    if (req.isAuthenticated()) {
+        return res.redirect("/users/profile")
+    }
+    return res.render("signup")
 }
 
 module.exports.signin = (req, res) => {
-    res.render("signin")
+    if (req.isAuthenticated()) {
+        return res.redirect("/users/profile")
+    }
+    return res.render("signin")
 }
 
 module.exports.create = (req, res) => {
@@ -37,5 +43,10 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.createSession = (req, res) => {
-    //const registration = new mongoose.user(req.body)
+    return res.redirect("/")
+}
+
+module.exports.destroySessin = (req, res) => {
+    req.logout(() => { });
+    return res.redirect('/')
 }
