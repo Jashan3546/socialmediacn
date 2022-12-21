@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { schema } = require('./users');
 
 const postschema = new mongoose.Schema({
     content: {
@@ -7,8 +8,15 @@ const postschema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }
+        ref: 'User'
+    },
+    //creating an array of comments in the post
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 },
     {
         timestamps: true
