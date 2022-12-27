@@ -11,23 +11,22 @@ module.exports.home = async (req, res) => {
     // const posts = await post.find({}).populate('user');
     // return res.render("home", { posts: posts })
 
-    post.find({})
-        .populate('user')
-        .populate({
-            path: 'comments',
-            populate: {
-                path: 'user'
-            }
-        })
-        .exec((err, posts) => {
-            user.find({}, (err, users) => {
-                if (err) {
-                    console.log('error occured', err);
+    try {
+        let posts = await post.find({})
+            .sort('-createdAt')
+            .populate('user')
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user'
                 }
-                return res.render("home", { posts: posts, all_users: users })
-            })
+            });
+        let users = await user.find({});
+        return res.render("home", { posts: posts, all_users: users })
 
-        })
-
+    } catch (error) {
+        console.log('error occured in homecontroller', error);
+        return;
+    }
 
 }
