@@ -1,5 +1,6 @@
 const comment = require('../models/comments');
 const post = require('../models/post');
+const commentMailer = require('../mailers/commentsmailer')
 
 module.exports.createComment = async (req, res) => {
 
@@ -7,6 +8,8 @@ module.exports.createComment = async (req, res) => {
         let foundpost = await post.findById(req.body.post);
         console.log(req.body.post);
         console.log(foundpost);
+
+        // console.log("HIii");
         if (foundpost) {
             let createdcomment = await comment.create({
                 comment: req.body.content,
@@ -15,7 +18,12 @@ module.exports.createComment = async (req, res) => {
 
             })
             foundpost.comments.push(createdcomment);
-            await foundpost.save();
+            foundpost.save();
+
+
+            createdcomment = await createdcomment.populate('user', 'name email');
+            commentMailer.newComment(createdcomment);
+
             req.flash('success', 'Comment Added')
             return res.redirect('/');
         }

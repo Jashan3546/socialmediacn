@@ -8,20 +8,20 @@ const passportlocal = require("./config/passport-local-stratigy")
 const passportJwt = require('./config/passport-jwt-stratigy');
 const app = express();
 const mongostore = require("connect-mongo")(session);
-const sassmiddleware = require('node-sass-middleware');
+//const sassmiddleware = require('node-sass-middleware');
 const passportGoogle = require('./config/passport-google-oauth2-stratigy')
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 
 
-app.use(sassmiddleware({
-    src: './assets/sass',
-    dest: './assets/css',
-    debug: true,
-    outputStyle: 'expanded',
-    prefix: '/css'
+// app.use(sassmiddleware({
+//     src: './assets/sass',
+//     dest: './assets/css',
+//     debug: true,
+//     outputStyle: 'expanded',
+//     prefix: '/css'
 
-}))
+// }))
 app.use(express.urlencoded());
 app.use(cookieparser())
 app.use(expresslayouts)
